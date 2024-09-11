@@ -1,8 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"log"
+	"os"
+)
 
-func Menu() {
+func Menu() string {
+	scanner := bufio.NewScanner(os.Stdin)
+
 	fmt.Println("Welcome to the CLI To-Do List App!")
 	fmt.Println("----------------------------------")
 	fmt.Println("Please choose an option:")
@@ -12,5 +19,11 @@ func Menu() {
 	fmt.Println("4. Delete a Task")
 	fmt.Println("5. Exit")
 	fmt.Println("----------------------------------")
-	fmt.Println("Enter your choice:")
+
+	fmt.Print("Enter your choice: ")
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+	scanner.Scan()
+	return scanner.Text()
 }
