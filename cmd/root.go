@@ -11,6 +11,9 @@ var rootCmd = &cobra.Command{
 	Use:   "simple-do",
 	Short: "Simple-Do is a basic CLI tool to manage your to-do tasks.",
 	Long:  `Simple-Do is a command-line tool for managing tasks. You can add, remove, and list tasks easily.`,
+	CompletionOptions: cobra.CompletionOptions{
+		DisableDefaultCmd: true,
+	},
 }
 
 func Execute() {
