@@ -2,10 +2,12 @@ package database
 
 import (
 	"database/sql"
-	"github.com/joho/godotenv"
 	"log"
 	"os"
 	"time"
+
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
 )
 
 func GetConnection() *sql.DB {
