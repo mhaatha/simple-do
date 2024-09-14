@@ -10,8 +10,8 @@ var Description string
 
 var addCmd = &cobra.Command{
 	Use:   "add",
-	Short: "Add new to-do list.",
-	Long:  `Add will insert new to-do list to database.`,
+	Short: "Add a new task.",
+	Long:  `Insert a new task to database.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(Description) == 0 {
 			fmt.Println("Error: description is required. Use -d or --description to specify the task description.")
