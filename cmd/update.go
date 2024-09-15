@@ -17,13 +17,20 @@ var updateCmd = &cobra.Command{
 	Short: "Update a task.",
 	Long:  `Update description or status of a task.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		if id == 0 {
+			fmt.Println("Error: id is required. Use -i or --id to specify the task id.")
+			cmd.Usage()
+			return
+		}
+
 		if isDone != "true" && isDone != "false" {
 			fmt.Println("Error: -s or --status only takes 'true' or 'false'")
 			cmd.Usage()
 			return
 		}
-		if id == 0 {
-			fmt.Println("Error: id is required. Use -i or --id to specify the task id.")
+
+		if len(descriptionUpdate) == 0 {
+			fmt.Println("Error: description is required. Use -u or --update-description to specify the task description.")
 			cmd.Usage()
 			return
 		}
@@ -40,6 +47,6 @@ var updateCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(updateCmd)
 	updateCmd.Flags().Uint16VarP(&id, "id", "i", 0, "Target task id to update. (required)")
-	updateCmd.Flags().StringVarP(&descriptionUpdate, "update-description", "u", "", "Update to-do list's description. Should use quotation marks if the data contains spaces.")
-	updateCmd.Flags().StringVarP(&isDone, "status", "s", "", "Update to-do list's status. Only takes 'true' or 'false'.")
+	updateCmd.Flags().StringVarP(&descriptionUpdate, "update-description", "u", "", "Update to-do list's description. Should use quotation marks if the data contains spaces. (required)")
+	updateCmd.Flags().StringVarP(&isDone, "status", "s", "", "Update to-do list's status. Only takes 'true' or 'false'. (required)")
 }

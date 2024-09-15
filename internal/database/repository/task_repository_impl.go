@@ -71,8 +71,28 @@ func (repository *taskRepositoryImpl) UpdateTask(ctx context.Context, task entit
 		fmt.Printf("Error: Task with ID %d not updated. It could be that the task with that ID was not found or was not updated.\n", task.Id)
 		return task, err
 	} else {
-		fmt.Printf("Data with Id %v successfully updated.\n", task.Id)
+		fmt.Printf("Task with Id %v successfully updated.\n", task.Id)
 		return task, nil
 	}
+}
 
+func (repository *taskRepositoryImpl) DeleteTask(ctx context.Context, task entity.Task) error {
+	sqlCommand := "DELETE FROM task WHERE id = ?"
+	result, err := repository.DB.ExecContext(ctx, sqlCommand, task.Id)
+	if err != nil {
+		return err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if rowsAffected == 0 {
+		fmt.Printf("Error: Task with ID %d is not found.\n", task.Id)
+		return err
+	} else {
+		fmt.Printf("Task with Id %v successfully deleted.\n", task.Id)
+		return nil
+	}
 }

@@ -39,8 +39,12 @@ func ShowTasks() {
 		fmt.Println(err)
 	}
 
-	fmt.Println("--------------------------------------------------------------------------------")
+	counter := 0
+
 	for _, task := range result {
+		if counter == 0 {
+			fmt.Println("--------------------------------------------------------------------------------")
+		}
 		fmt.Println("Id:", task.Id)
 		fmt.Println("Description:", task.Description)
 		fmt.Println("Created At:", task.CreatedAt.Format("2006-01-02 15:04:05"))
@@ -50,7 +54,12 @@ func ShowTasks() {
 			fmt.Println("Completed:", string(red), task.IsDone, string(reset))
 		}
 		fmt.Println("--------------------------------------------------------------------------------")
+		counter++
 	}
+	if counter == 0 {
+		fmt.Println("Task is empty. You can add task using 'simple-do add --help' for more information.")
+	}
+	counter = 0
 }
 
 func UpdateTask(id uint16, description string, isDone bool) {
@@ -64,6 +73,20 @@ func UpdateTask(id uint16, description string, isDone bool) {
 	}
 
 	_, err := taskRepository.UpdateTask(ctx, task)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+func DeleteTask(id uint16) {
+	taskRepository := repository.NewTaskRepository(database.GetConnection())
+
+	ctx := context.Background()
+	task := entity.Task{
+		Id: id,
+	}
+
+	err := taskRepository.DeleteTask(ctx, task)
 	if err != nil {
 		fmt.Println(err)
 	}
