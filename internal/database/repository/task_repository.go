@@ -9,4 +9,5 @@ import (
 type TaskRepository interface {
 	AddTask(ctx context.Context, task entity.Task) (entity.Task, error)
 	ShowTasks(ctx context.Context) ([]entity.Task, error)
+	UpdateTask(ctx context.Context, task entity.Task) (entity.Task, error)
 }

@@ -52,3 +52,19 @@ func ShowTasks() {
 		fmt.Println("--------------------------------------------------------------------------------")
 	}
 }
+
+func UpdateTask(id uint16, description string, isDone bool) {
+	taskRepository := repository.NewTaskRepository(database.GetConnection())
+
+	ctx := context.Background()
+	task := entity.Task{
+		Id:          id,
+		Description: description,
+		IsDone:      isDone,
+	}
+
+	_, err := taskRepository.UpdateTask(ctx, task)
+	if err != nil {
+		fmt.Println(err)
+	}
+}

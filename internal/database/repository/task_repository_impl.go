@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"log"
 
 	"github.com/mhaatha/simple-do/internal/database/entity"
@@ -52,4 +53,26 @@ func (repository *taskRepositoryImpl) ShowTasks(ctx context.Context) ([]entity.T
 	}
 
 	return tasks, nil
+}
+
+func (repository *taskRepositoryImpl) UpdateTask(ctx context.Context, task entity.Task) (entity.Task, error) {
+	sqlCommand := "UPDATE task SET description = ?, is_done = ? WHERE id = ?"
+	result, err := repository.DB.ExecContext(ctx, sqlCommand, task.Description, task.IsDone, task.Id)
+	if err != nil {
+		return task, err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if rowsAffected == 0 {
+		fmt.Printf("Error: Task with ID %d not updated. It could be that the task with that ID was not found or was not updated.\n", task.Id)
+		return task, err
+	} else {
+		fmt.Printf("Data with Id %v successfully updated.\n", task.Id)
+		return task, nil
+	}
+
 }
