@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/mhaatha/simple-do/internal/service"
 	"github.com/spf13/cobra"
 )
 
@@ -9,6 +10,7 @@ var showCmd = &cobra.Command{
 	Short: "Show all tasks.",
 	Long:  `Show all tasks from database.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		service.ShowTasks()
 	},
 }
 
